@@ -1,4 +1,5 @@
 import os
+import random
 import json
 from xpoz import XpozClient
 
@@ -90,30 +91,30 @@ def fetch_x_posts():
 
     return posts
 
-def fetch_playstore_reviews():
-    posts = []
+# def fetch_playstore_reviews():
+#     posts = []
 
-    try:
-        result, _ = reviews(
-            "com.application.zomato",
-            lang="en",
-            country="in",
-            sort=Sort.NEWEST,
-            count=10
-        )
+#     try:
+#         result, _ = reviews(
+#             "com.application.zomato",
+#             lang="en",
+#             country="in",
+#             sort=Sort.NEWEST,
+#             count=10
+#         )
 
-        for review in result:
-            posts.append({
-                "source": "playstore",
-                "text": review["content"],
-                "author": review["userName"],
-                "timestamp": str(review["at"])
-            })
+#         for review in result:
+#             posts.append({
+#                 "source": "playstore",
+#                 "text": review["content"],
+#                 "author": review["userName"],
+#                 "timestamp": str(review["at"])
+#             })
 
-    except Exception as e:
-        print(f"Play Store error: {e}")
+#     except Exception as e:
+#         print(f"Play Store error: {e}")
 
-    return posts
+#     return posts
 
 def fetch_rss_feeds():
     posts = []
@@ -144,7 +145,6 @@ def get_all_posts():
         fetch_reddit_posts()
         + fetch_x_posts()
         + fetch_rss_feeds()
-        + fetch_playstore_reviews()
     )
 
 def already_processed(text):
@@ -198,7 +198,9 @@ if __name__ == "__main__":
 
     new_posts_found = False
 
-    for post in all_posts[:30]:
+    random.shuffle(all_posts)
+
+    for post in all_posts:
 
         if already_processed(post["text"]):
             continue
