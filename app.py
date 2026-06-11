@@ -96,26 +96,42 @@ if not df.empty:
 # ==================================================
 
 
-st.sidebar.markdown("## Zomato Social Watch")
+st.sidebar.image("icons/zomato_logo.png", width=170)
+
+st.sidebar.markdown(
+"""
+<h2 style='color:#E23744;font-weight:bold'>
+Zomato Social Watch
+</h2>
+""",
+unsafe_allow_html=True
+)
+
 st.sidebar.caption("AI Monitoring Platform")
 
+if "page" not in st.session_state:
+    st.session_state.page = "Feed"
 
-page = st.sidebar.segmented_control(
-    "",
-    [
-        ":material/home: Feed",
-        ":material/warning: Escalations",
-        ":material/analytics: Analytics",
-        ":material/cable: Connectors"
-    ]
-)
+if st.sidebar.button(":material/home: Feed", use_container_width=True):
+    st.session_state.page = "Feed"
+
+if st.sidebar.button(":material/warning: Escalations", use_container_width=True):
+    st.session_state.page = "Escalations"
+
+if st.sidebar.button(":material/analytics: Analytics", use_container_width=True):
+    st.session_state.page = "Analytics"
+
+if st.sidebar.button(":material/cable: Connectors", use_container_width=True):
+    st.session_state.page = "Connectors"
+
+page = st.session_state.page
 
 
 # ==================================================
 # HOME FEED PAGE
 # ==================================================
 
-if page == ":material/home: Feed":
+if page == "Feed":
 
     # ---------- HEADER ----------
     col1, col2, col3 = st.columns([1,2,1])
@@ -123,8 +139,9 @@ if page == ":material/home: Feed":
     st.markdown(
         """
         <h1 style='text-align:center;
-                   font-size:48px;
-                   font-weight:bold;'>
+color:#E23744;
+font-size:52px;
+font-weight:bold;'>
             Zomato Social Watch
         </h1>
         """,
